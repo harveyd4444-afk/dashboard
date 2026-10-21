@@ -1,26 +1,3 @@
-const API_KEY  = "AIzaSyB8gXXY2MtnG4ZEEw2thCKeibXGgEMJfKg";
-const SHEET_ID = "1X2rkfomqXIn-jQyKxqAt0PmRtG_66kNc4Qz50FuiI_s";   // the demo copy
-
-async function getTab(tabName) {
-  const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${encodeURIComponent(tabName)}?key=${API_KEY}`;
-  const response = await fetch(url);          // ask Google for the tab
-  const data = await response.json();         // reply is { values: [[...], [...]] }
-  const [headers, ...rows] = data.values;     // first row = column names, rest = data
-  return rows.map(row =>                      // turn each row into an object
-    Object.fromEntries(headers.map((h, i) => [h, row[i] ?? ""]))
-  );
-}
-
-async function loadDashboard() {
-  const prospects = await getTab("Prospects v2");
-  const insta     = await getTab("Insta analysis");
-  const icp       = await getTab("ICP Scores");
-  const hunter    = await getTab("Hunter.io");
-  renderDashboard(prospects, insta, icp, hunter);   // your existing drawing code
-}
-
-loadDashboard();
-
 // GENERATED from dc-runtime/src/*.ts — do not edit. Rebuild with `cd dc-runtime && bun run build`.
 "use strict";
 (() => {
